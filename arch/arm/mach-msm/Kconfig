@@ -1978,6 +1978,17 @@ config BT_MSM_PINTEST
 	  This driver provides support for verifying the MSM to BT pin
 	  connectivity.
 
+choice
+	prompt "RAM options (MOREMEM)"
+	
+config ANCORA_MOREMEM
+	bool "select MOREMEM memory config"
+	help
+	  Enable 375MB memory config. 
+	  All the phone functions should work properly.
+
+endchoice
+
 config MSM_FAKE_BATTERY
 		depends on POWER_SUPPLY
 		default n
