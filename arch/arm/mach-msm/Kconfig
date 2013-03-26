@@ -1979,13 +1979,17 @@ config BT_MSM_PINTEST
 	  connectivity.
 
 choice
-	prompt "RAM options (MOREMEM)"
+	prompt "RAM options (NORMALMEM, MOREMEM)"
 	
+config ANCORA_NORMALMEM
+	bool "select NORMALMEM memory config"
+	help
+	  Enable default 351MB memory config. 
+
 config ANCORA_MOREMEM
 	bool "select MOREMEM memory config"
 	help
-	  Enable 375MB memory config. 
-	  All the phone functions should work properly.
+	  Enable 375MB memory config with fully working HD.
 
 endchoice
 
