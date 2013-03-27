@@ -90,16 +90,10 @@ static struct clock_state drv_state = { 0 };
 static struct clkctl_acpu_speed *backup_s;
 
 static struct pll pll2_tbl[] = {
-	{42, 0, 1, 0 }, 	/*  806 MHz */
-	{53, 1, 3, 0 }, 	/* 1024 MHz */
-  	{58, 1, 3, 0 }, 	/* 1113 MHz */
-	{63, 1, 3, 0 }, 	/* 1209 MHz */
-  	{68, 1, 3, 0 }, 	/* 1305 MHz */
-	{73, 0, 1, 0 }, 	/* 1401 MHz */
-	{78, 1, 3, 0 },		/* 1516 MHz */
-	{83, 1, 3, 0 },		/* 1612 MHz */
-	{88, 1, 3, 0 },		/* 1708 MHz */
-	{93, 1, 3, 0 },		/* 1804 MHz */
+	{  42, 0, 1, 0 }, /*  806 MHz */
+	{  53, 1, 3, 0 }, /* 1024 MHz */
+	{ 125, 0, 1, 1 }, /* 1200 MHz */
+	{  73, 0, 1, 0 }, /* 1401 MHz */
 };
 
 /* Use negative numbers for sources that can't be enabled/disabled */
@@ -137,14 +131,8 @@ static struct clkctl_acpu_speed acpu_freq_tbl[] = {
 	 */
 	{ 1, 806400,  PLL_2, 3, 0, UINT_MAX, 1100, VDD_RAW(1100), &pll2_tbl[0]},
 	{ 1, 1024000, PLL_2, 3, 0, UINT_MAX, 1200, VDD_RAW(1200), &pll2_tbl[1]},
-	{ 1, 1113600, PLL_2, 3, 0, UINT_MAX, 1200, VDD_RAW(1200), &pll2_tbl[2]},
-	{ 1, 1209600, PLL_2, 3, 0, UINT_MAX, 1200, VDD_RAW(1200), &pll2_tbl[3]},
-	{ 1, 1305600, PLL_2, 3, 0, UINT_MAX, 1225, VDD_RAW(1225), &pll2_tbl[4]},
-	{ 1, 1401600, PLL_2, 3, 0, UINT_MAX, 1250, VDD_RAW(1250), &pll2_tbl[5]},
-	{ 1, 1516800, PLL_2, 3, 0, UINT_MAX, 1250, VDD_RAW(1250), &pll2_tbl[6]},
-	{ 1, 1612800, PLL_2, 3, 0, UINT_MAX, 1275, VDD_RAW(1275), &pll2_tbl[7]},
-	{ 1, 1708800, PLL_2, 3, 0, UINT_MAX, 1300, VDD_RAW(1300), &pll2_tbl[8]},
-	{ 1, 1804800, PLL_2, 3, 0, UINT_MAX, 1325, VDD_RAW(1325), &pll2_tbl[9]},
+	{ 1, 1200000, PLL_2, 3, 0, UINT_MAX, 1200, VDD_RAW(1200), &pll2_tbl[2]},
+	{ 1, 1401600, PLL_2, 3, 0, UINT_MAX, 1250, VDD_RAW(1250), &pll2_tbl[3]},
 	{ 0 }
 };
 
@@ -464,23 +452,22 @@ static inline void setup_cpufreq_table(void) { }
 void __init pll2_fixup(void)
 {
 	struct clkctl_acpu_speed *speed = acpu_freq_tbl;
-	//u8 pll2_l = readl_relaxed(PLL2_L_VAL_ADDR) & 0xFF; //da togliere
+	u8 pll2_l = readl_relaxed(PLL2_L_VAL_ADDR) & 0xFF; //da togliere
 
 	for ( ; speed->acpu_clk_khz; speed++) {
 		if (speed->src != PLL_2)
 			backup_s = speed;
-/*
+//da togliere inizio
 		if (speed->pll_rate && speed->pll_rate->l == pll2_l) {
 			speed++;
 			speed->acpu_clk_khz = 0;
 			return;
 		}
-*/
+//da togliere fine
 	}
-/*
+
 	pr_err("Unknown PLL2 lval %d\n", pll2_l); //da togliere
 	BUG(); //da togliere
-*/
 }
 
 #define RPM_BYPASS_MASK	(1 << 3)
@@ -506,7 +493,6 @@ static struct acpuclk_data acpuclk_7x30_data = {
 
 static int __init acpuclk_7x30_init(struct acpuclk_soc_data *soc_data)
 {
-	struct clkctl_acpu_speed *s;
 	pr_info("%s()\n", __func__);
 
 	mutex_init(&drv_state.lock);
