@@ -1396,7 +1396,7 @@ config MSM_CPU_FREQ_SET_MIN_MAX
 config MSM_CPU_FREQ_MAX
 	int "Max CPU Frequency"
 	depends on MSM_CPU_FREQ_SET_MIN_MAX
-	default 384000
+	default 1401600
 
 config MSM_CPU_FREQ_MIN
 	int "Min CPU Frequency"
@@ -1409,6 +1409,22 @@ config MSM_CPU_FREQ_OVERCLOCKING
 	default y
 	help
 	  Enabling this option allow to use all overclock frequencies.
+
+choice
+	prompt "RAM options (DEFAULTMEM, HIGHMEM)"
+	default ANCORA_DEFAULTMEM
+	
+config ANCORA_DEFAULTMEM
+	bool "select DEFAULTMEM memory config"
+	help
+	  Enable default 351MB memory config. 
+
+config ANCORA_HIGHMEM
+	bool "select HIGHMEM memory config"
+	help
+	  Enable 375MB memory config with fully working HD.
+
+endchoice
 
 endif # CPU_FREQ_MSM
 
@@ -1984,21 +2000,6 @@ config BT_MSM_PINTEST
 	  Bluetooth MSM Pin Connectivity test module.
 	  This driver provides support for verifying the MSM to BT pin
 	  connectivity.
-
-choice
-	prompt "RAM options (NORMALMEM, MOREMEM)"
-	
-config ANCORA_NORMALMEM
-	bool "select NORMALMEM memory config"
-	help
-	  Enable default 351MB memory config. 
-
-config ANCORA_MOREMEM
-	bool "select MOREMEM memory config"
-	help
-	  Enable 375MB memory config with fully working HD.
-
-endchoice
 
 config MSM_FAKE_BATTERY
 		depends on POWER_SUPPLY
