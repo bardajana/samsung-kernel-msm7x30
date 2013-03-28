@@ -1422,7 +1422,7 @@ config ANCORA_DEFAULTMEM
 config ANCORA_HIGHMEM
 	bool "select HIGHMEM memory config"
 	help
-	  Enable 375MB memory config with fully working HD.
+	  Enable 370MB memory config with fully working HD.
 
 endchoice
 
